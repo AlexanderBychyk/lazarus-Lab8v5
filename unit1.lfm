@@ -1,0 +1,55 @@
+object Form1: TForm1
+  Left = 323
+  Height = 294
+  Top = 229
+  Width = 521
+  Caption = 'Alexander Bychyk Lab8v5'
+  ClientHeight = 294
+  ClientWidth = 521
+  object LabeledEdit1: TLabeledEdit
+    Left = 16
+    Height = 23
+    Hint = 'Пример:'#13#10'слово, нет, дерево, помидор.'
+    Top = 96
+    Width = 488
+    Anchors = [akTop, akLeft, akRight]
+    EditLabel.Height = 15
+    EditLabel.Width = 488
+    EditLabel.Caption = 'Введите последовательность слов'
+    EditLabel.ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 0
+    Text = 'слово'
+  end
+  object Label1: TLabel
+    Left = 16
+    Height = 50
+    Top = 14
+    Width = 488
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Программа выводит, из последовательности слов, все звонкие согласные буквы, которые входят хотя бы в одно слово, а также все глухие согласные буквы, которые не входят хотя бы в одно слово. '
+    Layout = tlCenter
+    ParentColor = False
+    WordWrap = True
+  end
+  object Button1: TButton
+    Left = 424
+    Height = 25
+    Top = 128
+    Width = 75
+    Caption = 'Вывод'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+  object Label2: TLabel
+    Left = 16
+    Height = 80
+    Top = 160
+    Width = 368
+    AutoSize = False
+    ParentColor = False
+    WordWrap = True
+  end
+end
