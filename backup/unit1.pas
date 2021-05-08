@@ -35,7 +35,7 @@ implementation
 
 
 procedure TForm1.Button1Click(Sender: TObject);
-const charsID: array [0..68] of string =
+const charsID: array of string =
       (
         'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П',
         'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я',
@@ -44,53 +44,62 @@ const charsID: array [0..68] of string =
         ' ', '.', ','
       );
 var S:AnsiString;
-    zvonk, gluh:set of byte;
-    i,j,l,n,k:integer;
-    word,ruchar:string;
+    zvonk, gluh, zvonkInWord, gluhInWord:set of byte;
+    i,j,n,l,k:integer;
+    word,labelCap:string;
 begin
   zvonk:=[1, 2, 3, 4, 7, 8, 10, 12, 13, 14, 17, 34, 35, 36, 37, 40, 41, 43, 45, 46, 47, 50];
   gluh:=[11, 16, 18, 19, 21, 22, 23, 24, 25, 26, 44, 49, 51, 52, 54, 55, 56, 57, 58, 59];
+  zvonkInWord:=[];
+  gluhInWord:=[];
 
-  S:=LabeledEdit1.Text;
-  word:=S;
+  labelCap:='';
+
+  S:=LabeledEdit1.Text+' ';
   n:=0;
   k:=0;
+  i:=1;
 
-  Label2.caption := (S[1]) + (S[2]) + charsID[51];
-
-  l:=1;
-  i:=0;
-  while l <=UTF8Length(word) do begin
-    i:=i+1;
-    label2.caption := label2.caption + S[l];
-    l:=l+2;
-    //for j:=Low(charID) to High(charsID) do begin
-    //  if ()
-    //end;
-  end;
-
-  {
-  for i:=1 to Length(S) do begin
-    if((S[i]=',') or (S[i]='.')) then begin
-
-      k:=i;
-      word:=Copy(S,n+1,k-n+1);
-      n:=i+1;
-
-      LabeledEdit1.Text := LabeledEdit1.Text + word;
-
-      //for l:=1 to length(word) do begin
-      //  for j:=Low(charsID) to High(charsId) do begin
-      //    if (word[l]=charsID[j]) then Label2.Caption := Label2.Caption + charsID[j];
-      //  end;
-      //end;
-
+  while i<=Length(S) do begin
+    if (S[i]<>' ') then begin
+      n:=i;
+      while (S[i]<>' ') do begin
+        k:=i;
+        i:=i+1;
+      end;
+      word:=Copy(S, n, k-n+1);
+      j:=1;
+      while j<=Length(word) do begin
+        for l:=low(charsID) to high(charsID) do begin
+          if(word[j]+word[j+1] = charsID[l]) then zvonkInWord:=zvonkInWord+[l];
+          if(word[j]+word[j+1] = charsID[l]) then gluhInWord:=gluhInWord+[l];
+        end;
+        j:=j+1;
+      end;
     end;
+    i:=i+1;
   end;
-  }
-  //end;
 
-  //showMessage(S); //debuger
+  Label2.Caption:=labelCap;
+  labelCap:='Звонкие: ';
+
+  zvonkInWord:=zvonkInWord*zvonk;
+  for i:=low(charsID) to high(charsID) do begin
+    if (i in zvonkInWord) then labelCap:=labelCap + charsID[i]+', ';
+  end;
+
+  Delete(labelCap,Length(labelCap)-1,2);
+  labelCap:=labelCap+'.'+#10+'Глухие: ';
+
+  gluhInWord:=gluh-gluhInWord; 
+  for i:=low(charsID) to high(charsID) do begin
+    if (i in gluhInWord) then labelCap:=labelCap + charsID[i]+', ';
+  end;
+
+  Delete(labelCap,Length(labelCap)-1,2);
+  Label2.Caption:=labelCap+'.';
+
+      //showMessage(charsID[0]); //debuger
 
 end;
 
