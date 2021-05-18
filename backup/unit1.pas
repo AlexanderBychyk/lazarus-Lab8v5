@@ -44,14 +44,15 @@ const charsID: array of string =
         ' ', '.', ','
       );
 var S:AnsiString;
-    zvonk, gluh, zvonkInWord, gluhInWord:set of byte;
-    i,j,n,l,k:integer;
-    word,labelCap:string;
+    zvonk, gluh, zvonkInWord, gluhInWord, gluhOutput:set of byte;
+    i,j,n,l,k,b:integer;
+    word,labelCap,debu:string;
 begin
   zvonk:=[1, 2, 3, 4, 7, 8, 10, 12, 13, 14, 17, 34, 35, 36, 37, 40, 41, 43, 45, 46, 47, 50];
   gluh:=[11, 16, 18, 19, 21, 22, 23, 24, 25, 26, 44, 49, 51, 52, 54, 55, 56, 57, 58, 59];
   zvonkInWord:=[];
   gluhInWord:=[];
+  gluhOutput:=[];
 
   labelCap:='';
 
@@ -76,6 +77,7 @@ begin
         end;
         j:=j+1;
       end;
+      gluhOutput:=gluhOutput+(gluh-gluhInWord);
     end;
     i:=i+1;
   end;
@@ -91,15 +93,12 @@ begin
   Delete(labelCap,Length(labelCap)-1,2);
   labelCap:=labelCap+'.'+#10+'Глухие: ';
 
-  gluhInWord:=gluh-gluhInWord; 
   for i:=low(charsID) to high(charsID) do begin
-    if (i in gluhInWord) then labelCap:=labelCap + charsID[i]+', ';
+    if (i in gluhOutput) then labelCap:=labelCap + charsID[i]+', ';
   end;
 
   Delete(labelCap,Length(labelCap)-1,2);
   Label2.Caption:=labelCap+'.';
-
-      //showMessage(charsID[0]); //debuger
 
 end;
 
